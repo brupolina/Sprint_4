@@ -12,4 +12,5 @@ public class Resources {
 
     public static final String ORDER_HEADER = "Для кого самокат";
     public static final String CONFIRM_HEADER = "Посмотреть статус";
+
 }

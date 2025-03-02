@@ -118,4 +118,5 @@ public class HomePageScooter {
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", bigButton);
         driver.findElement(DownOrderButton).click();
     }
+
 }

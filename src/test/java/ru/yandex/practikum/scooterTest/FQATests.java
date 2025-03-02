@@ -195,4 +195,5 @@ class HomePageScooter {
     String getAnswerText(By locator) {
         return driver.findElement(locator).getText();
     }
+
 }

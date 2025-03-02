@@ -118,4 +118,5 @@ public class OrderPageScooter {
     public void clickOrderConfirmButton() {
         driver.findElement(orderConfirmButton).click();
     }
+
 }
