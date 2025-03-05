@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.practikum.HomePageScooter;
 import ru.yandex.practikum.OrderPageScooter;
 
@@ -16,6 +17,7 @@ import static ru.yandex.practikum.Resources.CONFIRM_HEADER;
 @RunWith(Parameterized.class)
 public class OrderTest {
     private WebDriver driver;
+    private WebDriverWait wait;
     private final String name;
     private final String surname;
     private final String address;
@@ -25,7 +27,6 @@ public class OrderTest {
     private final String rentalPeriod;
     private final String color;
     private final String comment;
-
 
     public OrderTest(String name, String surname, String address, String subway, String phoneNumber, String date, String rentalPeriod, String color, String comment) {
         this.name = name;
@@ -42,8 +43,8 @@ public class OrderTest {
     @Parameterized.Parameters
     public static Object[][] getDateSetForOrder() {
         return new Object[][] {
-                {"Роман", "Токунов", "Хорошевское шоссе, д. 34, к. 2", "Хорошевская", "89775688964", "02.06.2025", "сутки", "чёрный жемчуг", "Позвонить за полчаса до приезда"},
-                {"Михаил", "Некрасов", "ул. Старокачаловская, д. 5, подъезд 2, этаж 7, кв. 65", "Бульвар Дмитрия Донского", "79683121564", "25.04.2025", "шестеро суток", "серая безысходность", "Не звонить в звонок, спит ребенок!"},
+                {"Роман", "Токунов", "Хорошевское шоссе, д. 34, к. 2", "Хорошёво", "89775688964", "02.06.2025", "сутки", "чёрный жемчуг", "Позвонить за полчаса до приезда"},
+                {"Михаил", "Некрасов", "ул. Старокачаловская, д. 5, подъезд 2, кв. 65", "Бульвар Дмитрия Донского", "79683121564", "25.04.2025", "шестеро суток", "серая безысходность", "Не звонить в звонок, спит ребенок!"},
         };
     }
 
@@ -51,6 +52,7 @@ public class OrderTest {
     public void startUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 3);
         driver.get("https://qa-scooter.praktikum-services.ru");
     }
 

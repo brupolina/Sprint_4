@@ -53,69 +53,101 @@ public class HomePageScooter {
     // Нижняя кнопка Заказать
     private By DownOrderButton = By.xpath(".//div[contains(@class, 'Home_FinishButton')]/button");
 
-    public HomePageScooter(WebDriver driver){
+    public HomePageScooter(WebDriver driver) {
         this.driver = driver;
     }
 
-    // Открыть вопросы о важном
-    public void clickCostQuestion() { driver.findElement(costQuestion).click(); }
+    // Методы для клика по вопросам
+    public void clickCostQuestion() {
+        clickQuestion(costQuestion);
+    }
+
     public void clickMultipleScootersQuestion() {
-        driver.findElement(multipleScootersQuestion).click();
+        clickQuestion(multipleScootersQuestion);
     }
+
     public void clickRentalPeriodQuestion() {
-        driver.findElement(rentalPeriodQuestion).click();
+        clickQuestion(rentalPeriodQuestion);
     }
+
     public void clickTodayRentalQuestion() {
-        driver.findElement(todayRentalQuestion).click();
+        clickQuestion(todayRentalQuestion);
     }
+
     public void clickModifyRentalQuestion() {
-        driver.findElement(modifyRentalQuestion).click();
+        clickQuestion(modifyRentalQuestion);
     }
+
     public void clickIncludeChargerQuestion() {
-        driver.findElement(includeChargerQuestion).click();
+        clickQuestion(includeChargerQuestion);
     }
-    public void clickOrderCancellationQuestion() { driver.findElement(orderCancellationQuestion).click(); }
-    public void clickDeliveryBeyondMkadQuestion() { driver.findElement(deliveryBeyondMkadQuestion).click(); }
+
+    public void clickOrderCancellationQuestion() {
+        clickQuestion(orderCancellationQuestion);
+    }
+
+    public void clickDeliveryBeyondMkadQuestion() {
+        clickQuestion(deliveryBeyondMkadQuestion);
+    }
+
+    // Вспомогательный метод для клика
+    public void clickQuestion(By locator) {
+        driver.findElement(locator).click();
+    }
+
+    // Методы для получения текста ответов
+    public String getCostAnswer() {
+        return getAnswerText(costAnswer);
+    }
+
+    public String getMultipleScootersAnswer() {
+        return getAnswerText(multipleScootersAnswer);
+    }
+
+    public String getRentalPeriodAnswer() {
+        return getAnswerText(rentalPeriodAnswer);
+    }
+
+    public String getTodayRentalAnswer() {
+        return getAnswerText(todayRentalAnswer);
+    }
+
+    public String getModifyRentalAnswer() {
+        return getAnswerText(modifyRentalAnswer);
+    }
+
+    public String getIncludeChargerAnswer() {
+        return getAnswerText(includeChargerAnswer);
+    }
+
+    public String getOrderCancellationAnswer() {
+        return getAnswerText(orderCancellationAnswer);
+    }
+
+    public String getDeliveryBeyondMkadAnswer() {
+        return getAnswerText(deliveryBeyondMkadAnswer);
+    }
+
+    // Вспомогательный метод для получения текста
+    public String getAnswerText(By locator) {
+        return driver.findElement(locator).getText();
+    }
 
     // Сравнить ответы на вопросы о важном с ожидаемым ответом
     public void isCorrectText(String answer, String text) {
         MatcherAssert.assertThat(answer, is(text));
     }
 
-    // Получить текст ответов
-    public String getCostAnswer() {
-        return driver.findElement(costAnswer).getText();
-    }
-    public String getMultipleScootersAnswer() {
-        return driver.findElement(multipleScootersAnswer).getText();
-    }
-    public String getRentalPeriodAnswer() {
-        return driver.findElement(rentalPeriodAnswer).getText();
-    }
-    public String getTodayRentalAnswer() {
-        return driver.findElement(todayRentalAnswer).getText();
-    }
-    public String getModifyRentalAnswer() {
-        return driver.findElement(modifyRentalAnswer).getText();
-    }
-    public String getIncludeChargerAnswer() {
-        return driver.findElement(includeChargerAnswer).getText();
-    }
-    public String getOrderCancellationAnswer() {
-        return driver.findElement(orderCancellationAnswer).getText();
-    }
-    public String getDeliveryBeyondMkadAnswer() {
-        return driver.findElement(deliveryBeyondMkadAnswer).getText();
-    }
-
     // Кликнуть по кнопкам Заказать
     public void clickUpOrderButton() {
         driver.findElement(UpOrderButton).click();
     }
+
     public void clickDownOrderButton() {
+
         // Проскролить до появления кнопки
         WebElement bigButton = driver.findElement(DownOrderButton);
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", bigButton);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", bigButton);
         driver.findElement(DownOrderButton).click();
     }
 }
