@@ -1,12 +1,9 @@
 package ru.yandex.practikum;
 
-import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.hamcrest.CoreMatchers.is;
 
 public class HomePageScooter {
 
@@ -14,21 +11,21 @@ public class HomePageScooter {
 
     // Вопросы о важном
     // Сколько это стоит? И как оплатить?
-    private By costQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By costQuestion = By.id("accordion__heading-0");
     // Хочу сразу несколько самокатов! Так можно?
-    private By multipleScootersQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By multipleScootersQuestion = By.id("accordion__heading-1");
     // Как рассчитывается время аренды?
-    private By rentalPeriodQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By rentalPeriodQuestion = By.id("accordion__heading-2");
     // Можно ли заказать самокат прямо на сегодня?
-    private By todayRentalQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By todayRentalQuestion = By.id("accordion__heading-3");
     // Можно ли продлить заказ или вернуть самокат раньше?
-    private By modifyRentalQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By modifyRentalQuestion = By.id("accordion__heading-4");
     // Вы привозите зарядку вместе с самокатом?
-    private By includeChargerQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By includeChargerQuestion = By.id("accordion__heading-5");
     // Можно ли отменить заказ?
-    private By orderCancellationQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By orderCancellationQuestion = By.id("accordion__heading-6");
     // Я живу за МКАДом, привезёте?
-    private By deliveryBeyondMkadQuestion = By.xpath(".//div[@class='accordion__item']");
+    private By deliveryBeyondMkadQuestion = By.id("accordion__heading-7");
 
     // Ответы на вопросы о важном
     // Сутки — 400 рублей. Оплата курьеру — наличными или картой.
@@ -57,85 +54,14 @@ public class HomePageScooter {
         this.driver = driver;
     }
 
-    // Методы для клика по вопросам
-    public void clickCostQuestion() {
-        clickQuestion(costQuestion);
-    }
-
-    public void clickMultipleScootersQuestion() {
-        clickQuestion(multipleScootersQuestion);
-    }
-
-    public void clickRentalPeriodQuestion() {
-        clickQuestion(rentalPeriodQuestion);
-    }
-
-    public void clickTodayRentalQuestion() {
-        clickQuestion(todayRentalQuestion);
-    }
-
-    public void clickModifyRentalQuestion() {
-        clickQuestion(modifyRentalQuestion);
-    }
-
-    public void clickIncludeChargerQuestion() {
-        clickQuestion(includeChargerQuestion);
-    }
-
-    public void clickOrderCancellationQuestion() {
-        clickQuestion(orderCancellationQuestion);
-    }
-
-    public void clickDeliveryBeyondMkadQuestion() {
-        clickQuestion(deliveryBeyondMkadQuestion);
-    }
-
-    // Вспомогательный метод для клика
+    // Метод для клика на вопрос
     public void clickQuestion(By locator) {
         driver.findElement(locator).click();
     }
 
-    // Методы для получения текста ответов
-    public String getCostAnswer() {
-        return getAnswerText(costAnswer);
-    }
-
-    public String getMultipleScootersAnswer() {
-        return getAnswerText(multipleScootersAnswer);
-    }
-
-    public String getRentalPeriodAnswer() {
-        return getAnswerText(rentalPeriodAnswer);
-    }
-
-    public String getTodayRentalAnswer() {
-        return getAnswerText(todayRentalAnswer);
-    }
-
-    public String getModifyRentalAnswer() {
-        return getAnswerText(modifyRentalAnswer);
-    }
-
-    public String getIncludeChargerAnswer() {
-        return getAnswerText(includeChargerAnswer);
-    }
-
-    public String getOrderCancellationAnswer() {
-        return getAnswerText(orderCancellationAnswer);
-    }
-
-    public String getDeliveryBeyondMkadAnswer() {
-        return getAnswerText(deliveryBeyondMkadAnswer);
-    }
-
-    // Вспомогательный метод для получения текста
+    // Метод для получения текста ответов
     public String getAnswerText(By locator) {
         return driver.findElement(locator).getText();
-    }
-
-    // Сравнить ответы на вопросы о важном с ожидаемым ответом
-    public void isCorrectText(String answer, String text) {
-        MatcherAssert.assertThat(answer, is(text));
     }
 
     // Кликнуть по кнопкам Заказать

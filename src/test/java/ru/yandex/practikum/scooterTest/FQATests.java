@@ -9,8 +9,11 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import ru.yandex.practikum.HomePageScooter;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,14 +25,14 @@ public class FQATests {
 
     private WebDriver driver;
     private HomePageScooter objHomePage;
-
+    private WebDriverWait wait;
     // Параметр для передачи в тест
     private final By questionMethod;
-    private final String answerMethod;
+    private final By answerMethod;
     private final String expectedText;
 
     // Конструктор для получения параметров
-    public FQATests(By questionMethod, String answerMethod, String expectedText) {
+    public FQATests(By questionMethod, By answerMethod, String expectedText) {
         this.questionMethod = questionMethod;
         this.answerMethod = answerMethod;
         this.expectedText = expectedText;
@@ -38,14 +41,14 @@ public class FQATests {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"clickCostQuestion", "getCostAnswer", COST_ANSWER},
-                {"clickMultipleScootersQuestion", "getMultipleScootersAnswer", MULTIPLE_SCOOTERS_ANSWER},
-                {"clickRentalPeriodQuestion", "getRentalPeriodAnswer", RENTAL_PERIOD_ANSWER},
-                {"clickTodayRentalQuestion", "getTodayRentalAnswer", TODAY_RENTAL_ANSWER},
-                {"clickModifyRentalQuestion", "getModifyRentalAnswer", MODIFY_RENTAL_ANSWER},
-                {"clickIncludeChargerQuestion", "getIncludeChargerAnswer", INCLUDE_CHARGER_ANSWER},
-                {"clickOrderCancellationQuestion", "getOrderCancellationAnswer", ORDER_CANCELLATION_ANSWER},
-                {"clickDeliveryBeyondMkadQuestion", "getDeliveryBeyondMkadAnswer", DELIVERY_BEYOND_MKAD_ANSWER}
+                {By.id("accordion__heading-0"), By.id("accordion__panel-0"), COST_ANSWER},
+                {By.id("accordion__heading-1"), By.id("accordion__panel-1"), MULTIPLE_SCOOTERS_ANSWER},
+                {By.id("accordion__heading-2"), By.id("accordion__panel-2"), RENTAL_PERIOD_ANSWER},
+                {By.id("accordion__heading-3"), By.id("accordion__panel-3"), TODAY_RENTAL_ANSWER},
+                {By.id("accordion__heading-4"), By.id("accordion__panel-4"), MODIFY_RENTAL_ANSWER},
+                {By.id("accordion__heading-5"), By.id("accordion__panel-5"), INCLUDE_CHARGER_ANSWER},
+                {By.id("accordion__heading-6"), By.id("accordion__panel-6"), ORDER_CANCELLATION_ANSWER},
+                {By.id("accordion__heading-7"), By.id("accordion__panel-7"), DELIVERY_BEYOND_MKAD_ANSWER}
         });
     }
 
@@ -54,37 +57,34 @@ public class FQATests {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get("https://qa-scooter.praktikum-services.ru");
+        wait = new WebDriverWait(driver, 3);
+        objHomePage = new HomePageScooter(driver);
 
         // Перемещение к секции FAQ
         scrollToFAQSection();
-
-        objHomePage = new HomePageScooter(driver);
     }
 
     private void scrollToFAQSection() {
-        ((JavascriptExecutor)driver).executeScript(
+        ((JavascriptExecutor) driver).executeScript(
                 "document.querySelector('.accordion').scrollIntoView();"
         );
     }
 
     @Test
     public void QACorrectAnswerTextTest() {
-        try {
-            // Шаг 1: Кликаем по вопросу
-            objHomePage.clickQuestion(questionMethod);
+        WebElement questionElement = wait.until(ExpectedConditions.presenceOfElementLocated(questionMethod));
+        questionElement.click();
+        // Шаг 1: Кликаем по вопросу
+        objHomePage.clickQuestion(questionMethod);
 
-            // Шаг 2: Получаем текст ответа
-            String actualText = objHomePage.getAnswerText(By.id(answerMethod));
+        // Шаг 2: Получаем текст ответа
+        String actualText = objHomePage.getAnswerText(answerMethod);
 
-            // Проверка: сравниваем ожидаемый и фактический текст
-            if (!actualText.equals(expectedText)) {
-                throw new AssertionError("Текст ответа не совпадает с ожидаемым\n" +
+        // Проверка: сравниваем ожидаемый и фактический текст
+        assert actualText.equals(expectedText) :
+                "Текст ответа не совпадает с ожидаемым\n" +
                         "Ожидаемый: " + expectedText + "\n" +
-                        "Фактический: " + actualText);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Ошибка при выполнении теста: " + e.getMessage());
-        }
+                        "Фактический: " + actualText;
     }
 
     @After
@@ -92,4 +92,3 @@ public class FQATests {
         driver.quit();
     }
 }
-
